@@ -1,13 +1,38 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useHistory, withRouter } from "react-router-dom";
+import axios from "axios";
+import { apiURL } from "../util/apiURL";
 
-function BookmarkDetails(props) {
-  const { deleteBookmark } = props;
+const API = apiURL();
+
+function BookmarkDetails({ deleteBookmark } ) {
   const [bookmark, setBookmark] = useState([]);
   let { index } = useParams();
   let history = useHistory();
 
-  useEffect(() => {}, []);
+  // useEffect(() => {
+  //   axios.get(`${API}/bookmarks/${index}`).then(
+  //     (response) => {
+  //       setBookmark(response.data);
+  //     },
+  //     (error) => {
+  //       history.push(`/not-found`);
+  //     }
+  //   );
+  // }, [index, history]);
+
+  useEffect(async () => {
+    let res;
+    try{
+    res = await axios.get(`${API}/bookmarks/${index}`)
+     setBookmark(res.data)
+    } catch(err){
+      console.log(useParams)
+      console.log(index)
+      console.log("You've hit an error")
+      history.push(`/not-found`)
+    }
+  }, [index, history]);
   const handleDelete = () => {};
   return (
     <article>

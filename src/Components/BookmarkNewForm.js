@@ -20,7 +20,7 @@ function BookmarkNewForm(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    props.addBookmark(bookmark);
+    props.addBookmarks(bookmark);
     props.history.push("/bookmarks");
   };
   return (
