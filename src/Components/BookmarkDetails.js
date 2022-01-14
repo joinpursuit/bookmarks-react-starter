@@ -1,12 +1,30 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 function BookmarkDetails() {
-  const [bookmark] = useState([]);
+  const API = process.env.REACT_APP_API_URL;
+  const [bookmark, setBookmark] = useState([]);
   let { index } = useParams();
+  const navigate = useNavigate();
 
-  useEffect(() => {}, []);
-  const handleDelete = () => {};
+  useEffect(() => {
+    // GET request to http//localhost:3003/bookmarks/:index
+    // use setBookmark to change our current bookmark
+    // to get data we get back
+    axios
+      .get(`${API}/bookmarks/${index}`)
+      .then((response) => setBookmark(response.data));
+  }, []);
+
+  const handleDelete = () => {
+    // make a delete request to /bookmark/:index
+    axios
+      .delete(`${API}/bookmarks/${index}`)
+      .then(() => navigate(`/bookmarks`));
+    // redirect them to back to /bookmarks
+  };
+
   return (
     <article>
       <h3>
